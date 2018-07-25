@@ -18,7 +18,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 %}
 % function OutcomePlot(AxesHandle,TrialTypeSides, OutcomeRecord, CurrentTrial)
-function TrialTypeOutcomePlot(AxesHandle, Action, varargin)
+function TrialTypeOutcomePlot_Frequencies(AxesHandle, Action, varargin)
 %% 
 % Plug in to Plot trial type and trial outcome.
 % AxesHandle = handle of axes to plot on
