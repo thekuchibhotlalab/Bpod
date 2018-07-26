@@ -77,15 +77,14 @@ switch Action
         BpodSystem.GUIHandles.RewardedCorrectLine = line([0,0],[0,0], 'LineStyle','none','Marker','x','MarkerEdge','g','MarkerFace','g', 'MarkerSize',6);
         BpodSystem.GUIHandles.UnrewardedCorrectLine = line([0,0],[0,0], 'LineStyle','none','Marker','o','MarkerEdge','r','MarkerFace',[1 1 1], 'MarkerSize',6);
         BpodSystem.GUIHandles.NoResponseLine = line([0,0],[0,0], 'LineStyle','none','Marker','o','MarkerEdge','b','MarkerFace',[1 1 1], 'MarkerSize',6);
-%         BpodSystem.GUIHandles.ProbeContextLine = line((probe1),[-3,-3],'LineStyle','-', 'LineWidth', 10, 'Color','b', 'MarkerSize',100); % draws line for probe trials
         if verLessThan('matlab','8.0') % Use optimal split function if possible
-            BpodSystem.GUIHandles.TTOP_Ylabel = Split(num2str(3:-1:-1));
+            BpodSystem.GUIHandles.TTOP_Ylabel = Split(num2str(5:-1:-1));
         else
-            BpodSystem.GUIHandles.TTOP_Ylabel = strsplit(num2str(3:-1:-1));
+            BpodSystem.GUIHandles.TTOP_Ylabel = strsplit(num2str(5:-1:-1));
         end
-        set(AxesHandle,'TickDir', 'out','YLim', [-3-.5, -.5], 'YTick', -3:1:-1,'YTickLabel', {'Context' 'NoGo' 'Go'}, 'FontSize', 16);
+        set(AxesHandle,'TickDir', 'out','YLim', [-5-.5, -.5], 'YTick', -5:1:-1,'YTickLabel', {'Middle' 'ProbeNoGo' 'ProbeGo' 'Context' 'NoGo' 'Go'}, 'FontSize', 12);
         xlabel(AxesHandle, 'Trial#', 'FontSize', labelFontSize);
-        ylabel(AxesHandle, 'Trial Type', 'FontSize', 16);
+        ylabel(AxesHandle, 'Trial Type', 'FontSize', 12);
         hold(AxesHandle, 'on');
         
     case 'update'
@@ -93,7 +92,7 @@ switch Action
         TrialTypeList = varargin{2};
         OutcomeRecord = varargin{3};
         MaxTrialType = max(TrialTypeList);
-        set(AxesHandle,'YLim',[-3-.5, -.5], 'YTick', -3:1:-1,'YTickLabel', {'Context' 'NoGo' 'Go'});
+        set(AxesHandle,'YLim',[-5-.5, -.5], 'YTick', -5:1:-1,'YTickLabel', {'Middle' 'ProbeNoGo' 'ProbeGo' 'Context' 'NoGo' 'Go'});
         if CurrentTrial<1
             CurrentTrial = 1;
         end
