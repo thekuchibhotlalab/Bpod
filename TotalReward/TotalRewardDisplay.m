@@ -3,6 +3,8 @@ function TotalRewardDisplay(varargin)
 % TotalRewardDisplay('add', Amount) - updates the total reward display with
 % a new reward, adding to the total amount.
 global BpodSystem
+global Amount
+
 Op = varargin{1};
 if nargin > 1
     AmountToAdd = varargin{2};
@@ -39,10 +41,10 @@ switch Op
         BpodSystem.GUIHandles.TotalRewardDisplay.Label3 = uicontrol('Style', 'text', 'String', 'Manual Reward', 'units', 'normalized', 'Position', [.1 .6 .4 .1], 'FontWeight', 'bold', 'FontSize', 16, 'FontName', 'Arial', 'BackgroundColor', [.7 .7 1]);
         BpodSystem.GUIHandles.TotalRewardDisplay.Amount3 = uicontrol('Style', 'text', 'String', ['0 ' char(181) 'l'], 'units', 'normalized', 'Position', [.5 .6 .4 .1], 'FontSize', 20, 'FontName', 'Arial', 'BackgroundColor', [.7 .7 1]);
         BpodSystem.GUIHandles.TotalRewardDisplay.Button2 = uicontrol('Style', 'pushbutton', 'String', 'Move Licktube', 'units', 'normalized', 'Position', [.5 .2 .4 .1], 'FontSize', 16, 'FontName', 'Arial', 'BackgroundColor', [.7 .7 1], 'Callback', @licktube);         
-        BpodSystem.GUIHandles.TotalRewardDisplay.Calibrate = uicontrol('Style', 'text', 'String', [char(181) 'l per reward = 3.5'], 'units', 'normalized', 'Position', [.2 .075 .55 .05], 'FontSize', 15, 'FontName', 'Arial', 'BackgroundColor', [.7 .7 1]); 
+        BpodSystem.GUIHandles.TotalRewardDisplay.Calibrate = uicontrol('Style', 'text', 'String', [char(181) 'l per reward = ' num2str(Amount)], 'units', 'normalized', 'Position', [.2 .075 .55 .05], 'FontSize', 15, 'FontName', 'Arial', 'BackgroundColor', [.7 .7 1]); 
         BpodSystem.GUIHandles.TotalRewardDisplay.Calibrate2 = uicontrol('Style', 'text', 'String', 'Make sure to calibrate!', 'units', 'normalized', 'Position', [.2 .025 .55 .05], 'FontSize', 15, 'FontName', 'Arial', 'BackgroundColor', [.7 .7 1]); 
     case 'add'
-        BpodSystem.PluginObjects.TotalRewardDelivered = BpodSystem.PluginObjects.TotalRewardDelivered + 3.5;
+        BpodSystem.PluginObjects.TotalRewardDelivered = BpodSystem.PluginObjects.TotalRewardDelivered + Amount;
         if BpodSystem.PluginObjects.TotalRewardDelivered > 1000
             DisplayAmount = BpodSystem.PluginObjects.TotalRewardDelivered/1000;
             DisplayUnits = ' L';
@@ -52,18 +54,19 @@ switch Op
         end
         set(BpodSystem.GUIHandles.TotalRewardDisplay.Amount, 'String', [num2str(DisplayAmount) DisplayUnits]);
     case 'licks' % update number of licks
-        BpodSystem.PluginObjects.Licks = BpodSystem.PluginObjects.Licks + 3.5;
+        BpodSystem.PluginObjects.Licks = BpodSystem.PluginObjects.Licks + Amount;
         set(BpodSystem.GUIHandles.TotalRewardDisplay.Amount2, 'String', [num2str(BpodSystem.PluginObjects.Licks) [' ' char(181) 'l']]);
     case 'presses' % update number of presses
-        BpodSystem.PluginObjects.Presses = BpodSystem.PluginObjects.Presses +3.5;
+        BpodSystem.PluginObjects.Presses = BpodSystem.PluginObjects.Presses +Amount;
         set(BpodSystem.GUIHandles.TotalRewardDisplay.Amount2, 'String', [num2str(BpodSystem.PluginObjects.Presses) [' ' char(181) 'l']]);
 end
 end
 function button(~, ~)
 global BpodSystem
+global Amount
 SendBpodSoftCode(1); % open valve
 % add manual reward
-BpodSystem.PluginObjects.ManualReward = BpodSystem.PluginObjects.ManualReward+3.5;
+BpodSystem.PluginObjects.ManualReward = BpodSystem.PluginObjects.ManualReward+Amount;
 if BpodSystem.PluginObjects.ManualReward > 1000
     DisplayAmount3 = BpodSystem.PluginObjects.ManualReward/1000;
     DisplayUnits = ' L';
@@ -73,7 +76,7 @@ else
 end
 set(BpodSystem.GUIHandles.TotalRewardDisplay.Amount3, 'String', [num2str(DisplayAmount3) DisplayUnits]);
 % add to total reward
-BpodSystem.PluginObjects.TotalRewardDelivered = BpodSystem.PluginObjects.TotalRewardDelivered + 3.5;
+BpodSystem.PluginObjects.TotalRewardDelivered = BpodSystem.PluginObjects.TotalRewardDelivered + Amount;
 if BpodSystem.PluginObjects.TotalRewardDelivered > 1000
     DisplayAmount = BpodSystem.PluginObjects.TotalRewardDelivered/1000;
     DisplayUnits = ' L';
